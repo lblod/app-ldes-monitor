@@ -21,3 +21,5 @@ services:
     restart: no
   sink:
     restart: no
+  ldes-monitor:
+    restart: no

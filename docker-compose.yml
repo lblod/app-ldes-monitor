@@ -95,8 +95,6 @@ services:
   ldes-client:
     image: lblod/ldes-client:0.0.5
     restart: always
-    profiles:
-      - "disabled"
     environment:
       WORKING_GRAPH: http://mu.semte.ch/graphs/ldes-working-graph
       DIRECT_DATABASE_CONNECTION: "http://triplestore:8890/sparql"
@@ -109,3 +107,5 @@ services:
     labels:
       - "logging=true"
     logging: *default-logging
+  ldes-monitor:
+    image: lblod/ldes-monitor-service
