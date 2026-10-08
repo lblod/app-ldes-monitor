@@ -13,7 +13,7 @@ export default {
       LDES_BASE:
         "https://mandatenbeheer.lokaalbestuur.vlaanderen.be/streams/ldes/public",
       FIRST_PAGE:
-        "https://mandatenbeheer.lokaalbestuur.vlaanderen.be/streams/ldes/public/checkpoints/2026-10-01T05-00-00/14",
+        "https://mandatenbeheer.lokaalbestuur.vlaanderen.be/streams/ldes/public/checkpoints/2026-10-01T05-00-00/15",
       TARGET_GRAPH: "http://mu.semte.ch/graphs/ldes-validation/content",
       STATUS_GRAPH: "http://mu.semte.ch/graphs/ldes-validation/status",
       EXTRA_HEADERS: {},
@@ -37,9 +37,9 @@ export default {
     environment.lastPageLoaded = new Date();
     await storePageInfo();
   },
-  async onPageComplete() {
+  async onPageComplete(currentPage: string) {
     const pageProcessedAt = new Date();
-    await storePageProcessedTime(pageProcessedAt);
+    await storePageProcessedTime(currentPage, pageProcessedAt);
   },
   getObservationsGraph(_currentStreamConfig: any) {
     return "http://mu.semte.ch/graphs/ldes-validation/status";

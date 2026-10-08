@@ -75,7 +75,10 @@ export async function storeObservation() {
 
   return observationUri;
 }
-export async function storePageProcessedTime(processedAt: Date) {
+export async function storePageProcessedTime(
+  currentPage: string,
+  processedAt: Date,
+) {
   const observationUri = await storeObservation();
   const resultId = uuid();
   const resultUri = `http://data.lblod.info/results/${resultId}`;
@@ -94,7 +97,8 @@ export async function storePageProcessedTime(processedAt: Date) {
     INSERT DATA {
       GRAPH ${sparqlEscapeUri(graph)} {
         ${sparqlEscapeUri(observationUri)} <http://www.w3.org/ns/sosa/hasResult> ${sparqlEscapeUri(resultUri)} ;
-          <http://www.w3.org/ns/sosa/hasSimpleResult> ${sparqlEscapeFloat(duration)} .
+          <http://www.w3.org/ns/sosa/hasSimpleResult> ${sparqlEscapeFloat(duration)} ;
+          <http://www.w3.org/ns/sosa/observedProperty> ${sparqlEscapeUri(currentPage)} .
         ${sparqlEscapeUri(resultUri)} a <http://www.w3.org/ns/sosa/Result> ;
           <http://mu.semte.ch/vocabularies/core/uuid> ${sparqlEscapeString(resultId)} ;
           ext:durationLoad ${sparqlEscapeFloat(loadDuration)} ;
