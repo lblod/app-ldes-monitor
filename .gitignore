@@ -1,0 +1,15 @@
+# Virtuoso files /data/db
+/data/*
+/debug
+.DS_Store
+.vscode
+*~
+
+!/tmp/
+
+docker-compose.override.yml
+.htpasswd
+.env
+node_modules
+
+config/login
