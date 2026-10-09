@@ -109,3 +109,5 @@ services:
     logging: *default-logging
   ldes-monitor:
     image: lblod/ldes-monitor-service
+  frontend:
+    image: lblod/frontend-ldes-watchman
