@@ -28,9 +28,6 @@ export default {
     await storeError(observation, error, response);
   },
   onPageFetchStart() {
-    console.log(
-      `\n\n\n\n\n\n\nenv: ${JSON.stringify(environment)}\n\n\n\n\n\n`,
-    );
     environment.lastPageStart = new Date();
   },
   async onPageLoaded() {
