@@ -54,7 +54,7 @@ defmodule Dispatcher do
 
 
   match "/ldes-watchman-api/*path", %{layer: :api_services, accept: %{any: true}} do
-    forward(conn, path, "http://ldes-monitor/")
+    forward(conn, path, "http://ldes-watchman/")
   end
 
   #################

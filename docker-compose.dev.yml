@@ -23,5 +23,5 @@ services:
     restart: no
   sink:
     restart: no
-  ldes-monitor:
+  ldes-watchman:
     restart: no

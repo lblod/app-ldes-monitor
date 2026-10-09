@@ -107,7 +107,10 @@ services:
     labels:
       - "logging=true"
     logging: *default-logging
-  ldes-monitor:
-    image: lblod/ldes-monitor-service
+  ldes-watchman:
+    image: lblod/ldes-watchman-service
+    volumes:
+      - ./data/ldes-watchman:/data/
+      - ./config/ldes-watchman:/config/
   frontend:
     image: lblod/frontend-ldes-watchman
