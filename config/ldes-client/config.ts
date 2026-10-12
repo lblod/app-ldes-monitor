@@ -19,9 +19,9 @@ export default {
       LDES_BASE:
         "https://mandatenbeheer.lokaalbestuur.vlaanderen.be/streams/ldes/public",
       FIRST_PAGE:
-        "https://mandatenbeheer.lokaalbestuur.vlaanderen.be/streams/ldes/public/checkpoints/2026-10-01T05-00-00/15",
-      TARGET_GRAPH: "http://mu.semte.ch/graphs/ldes-validation/content",
-      STATUS_GRAPH: "http://mu.semte.ch/graphs/ldes-validation/status",
+        "https://mandatenbeheer.lokaalbestuur.vlaanderen.be/streams/ldes/public/checkpoints/2026-10-01T05-00-00/1",
+      TARGET_GRAPH: "http://mu.semte.ch/graphs/ldes-validation/public/content",
+      STATUS_GRAPH: "http://mu.semte.ch/graphs/ldes-validation/public/status",
       EXTRA_HEADERS: {},
       VERSION_PREDICATE: "http://purl.org/dc/terms/isVersionOf",
       TIME_PREDICATE: "http://www.w3.org/ns/prov#generatedAtTime",
@@ -90,7 +90,7 @@ export default {
     }
     lastPageProcessed = currentPage;
   },
-  getObservationsGraph(_currentStreamConfig: any) {
-    return "http://mu.semte.ch/graphs/ldes-validation/status";
+  getObservationsGraph(currentStreamConfig: any) {
+    return currentStreamConfig.STATUS_GRAPH;
   },
 };

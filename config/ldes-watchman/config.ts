@@ -4,8 +4,8 @@ export const config = {
   streams: {
     "https://mandatenbeheer.lokaalbestuur.vlaanderen.be/streams/ldes/public": {
       name: "Public Stream",
-      content: "http://mu.semte.ch/graphs/ldes-validation/content",
-      status: "http://mu.semte.ch/graphs/ldes-validation/status",
+      content: "http://mu.semte.ch/graphs/ldes-validation/public/content",
+      status: "http://mu.semte.ch/graphs/ldes-validation/public/status",
       onShapeChange: async (streamUri, path) => {
         await incrementCounter(
           "ldes_watchman_shape_changes_total",
