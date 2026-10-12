@@ -12,6 +12,7 @@ import {
 } from "./util";
 
 export default {
+  lastPageProcessed: null as null | string,
   endpoints: [
     {
       name: "Public Stream",
@@ -41,7 +42,11 @@ export default {
       stream,
     );
     await incrementCounter("ldes_errors_total", stream);
-    await setGauge("ldes_last_error_timestamp_seconds", Date.now() / 1000, stream);
+    await setGauge(
+      "ldes_last_error_timestamp_seconds",
+      Date.now() / 1000,
+      stream,
+    );
   },
   async onPageFetchStart() {
     const stream = environment.getCurrentStreamConfig().name;
@@ -74,8 +79,16 @@ export default {
     await storePageProcessedTime(currentPage, pageProcessedAt);
     const processDuration =
       (pageProcessedAt.getTime() - environment.lastPageStart.getTime()) / 1000;
-    await setGauge("ldes_page_process_duration_seconds", processDuration, stream);
+    await setGauge(
+      "ldes_page_process_duration_seconds",
+      processDuration,
+      stream,
+    );
     await incrementCounter("ldes_pages_completed_total", stream);
+    if (currentPage != this.lastPageProcessed) {
+      await incrementCounter("ldes_new_pages_seen_total", stream);
+    }
+    this.lastPageProcessed = currentPage;
   },
   getObservationsGraph(_currentStreamConfig: any) {
     return "http://mu.semte.ch/graphs/ldes-validation/status";
