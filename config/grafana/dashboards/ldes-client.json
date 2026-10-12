@@ -429,8 +429,8 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "increase(ldes_watchman_shape_changes_total{stream=\"$stream\"}[30m])",
-          "legendFormat": "shape changes per 30m"
+          "expr": "increase(ldes_watchman_shape_changes_total{stream=\"$stream\"}[5m])",
+          "legendFormat": "shape change"
         }
       ],
       "options": {
@@ -448,15 +448,24 @@
         "defaults": {
           "unit": "short",
           "custom": {
-            "lineWidth": 2,
-            "fillOpacity": 10,
+            "drawStyle": "bars",
+            "lineWidth": 1,
+            "fillOpacity": 50,
             "showPoints": "never",
             "spanNulls": true
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
           }
         },
         "overrides": []
       },
-      "description": "Number of shape changes over the last week"
+      "description": "Moments at which shape changes occurred over the last week (each bar marks the 5m interval in which a change was detected)"
     },
     {
       "id": 9,
