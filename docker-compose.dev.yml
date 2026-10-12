@@ -25,3 +25,9 @@ services:
     restart: no
   ldes-watchman:
     restart: no
+  pushgateway:
+    restart: no
+  prometheus:
+    restart: no
+    ports:
+      - "9090:9090"

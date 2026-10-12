@@ -102,8 +102,42 @@ services:
       RANDOMIZE_GRAPHS: true
       BATCH_SIZE: 100
       BYPASS_MU_AUTH: false
+      LDES_METRICS_PUSHGATEWAY_URL: "http://pushgateway:9091"
     volumes:
       - ./config/ldes-client:/config
+    labels:
+      - "logging=true"
+    logging: *default-logging
+  pushgateway:
+    image: prom/pushgateway:v1.9.0
+    restart: always
+    labels:
+      - "logging=true"
+    logging: *default-logging
+  prometheus:
+    image: prom/prometheus:v2.52.0
+    user: "0:0"
+    restart: always
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      - --storage.tsdb.retention.time=90d
+    volumes:
+      - ./config/prometheus:/etc/prometheus
+      - ./data/prometheus:/prometheus
+    labels:
+      - "logging=true"
+    logging: *default-logging
+  grafana:
+    image: grafana/grafana-oss:11.1.0
+    user: "0:0"
+    restart: always
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./config/grafana/provisioning:/etc/grafana/provisioning
+      - ./config/grafana/dashboards:/etc/grafana/dashboards:ro
+      - ./data/grafana:/var/lib/grafana
     labels:
       - "logging=true"
     logging: *default-logging
