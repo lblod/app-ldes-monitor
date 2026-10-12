@@ -163,6 +163,87 @@ groups:
               maxDataPoints: 43200
               type: threshold
               refId: C
+      - uid: ldes-pages-completed-spike
+        title: "LDES client: pages completed per hour spike"
+        condition: C
+        for: 0s
+        noDataState: NoData
+        execErrState: Error
+        annotations:
+          summary: Pages completed per hour spiked on stream {{ $labels.stream }}
+          description:
+            The number of pages completed per hour on stream {{$labels.stream}}
+            is more than 1000% of the average of last week ({{$values.B}}).
+            Check the ldes stream for unusual activity or duplicate pages.
+        labels:
+          severity: warning
+        data:
+          - refId: A
+            datasourceUid: prometheus
+            relativeTimeRange:
+              from: 3600
+              to: 0
+            model:
+              editorMode: code
+              expr: rate(ldes_pages_completed_total[1h]) * 3600 > 10 * avg_over_time(rate(ldes_pages_completed_total[1h])[1w:1h]) * 3600
+              instant: true
+              intervalMs: 1000
+              maxDataPoints: 43200
+              refId: A
+          - refId: B
+            datasourceUid: __expr__
+            model:
+              conditions:
+                - evaluator:
+                    params: []
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params:
+                      - A
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              datasource:
+                type: __expr__
+                uid: __expr__
+              expression: A
+              intervalMs: 1000
+              maxDataPoints: 43200
+              reducer: last
+              settings:
+                mode: dropNN
+                reducer: last
+              type: reduce
+              refId: B
+          - refId: C
+            datasourceUid: __expr__
+            model:
+              conditions:
+                - evaluator:
+                    params:
+                      - 0
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params:
+                      - B
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              datasource:
+                type: __expr__
+                uid: __expr__
+              expression: B
+              intervalMs: 1000
+              maxDataPoints: 43200
+              type: threshold
+              refId: C
+
       - uid: ldes-shape-changed
         title: "LDES client: shape changed"
         condition: C

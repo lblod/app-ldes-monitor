@@ -317,6 +317,218 @@
         "overrides": []
       },
       "description": "Duration of loading a page and of processing it fully (per page)"
+    },
+    {
+      "id": 6,
+      "title": "Errors (last week)",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 14
+      },
+      "time": {
+        "from": "now-7d",
+        "to": "now"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "increase(ldes_errors_total{stream=\"$stream\"}[30m])",
+          "legendFormat": "errors per 30m"
+        }
+      ],
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "lineWidth": 2,
+            "fillOpacity": 10,
+            "showPoints": "never",
+            "spanNulls": true
+          }
+        },
+        "overrides": []
+      },
+      "description": "When errors occurred over the last week (increase per 30m interval)"
+    },
+    {
+      "id": 7,
+      "title": "Pages completed per hour (last week)",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 14
+      },
+      "time": {
+        "from": "now-7d",
+        "to": "now"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "rate(ldes_pages_completed_total{stream=\"$stream\"}[1h]) * 3600",
+          "legendFormat": "completed/h"
+        }
+      ],
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "lineWidth": 2,
+            "fillOpacity": 10,
+            "showPoints": "never",
+            "spanNulls": true
+          }
+        },
+        "overrides": []
+      },
+      "description": "Number of pages completed per hour over the last week"
+    },
+    {
+      "id": 8,
+      "title": "Page changes (last week)",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 22
+      },
+      "time": {
+        "from": "now-7d",
+        "to": "now"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "increase(ldes_new_pages_seen_total{stream=\"$stream\"}[30m])",
+          "legendFormat": "page changes per 30m"
+        }
+      ],
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": {
+            "lineWidth": 2,
+            "fillOpacity": 10,
+            "showPoints": "never",
+            "spanNulls": true
+          }
+        },
+        "overrides": []
+      },
+      "description": "Number of page changes (new pages seen) over the last week"
+    },
+    {
+      "id": 9,
+      "title": "Last shape change",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 12,
+        "y": 22
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "ldes_watchman_last_shape_change_timestamp_seconds{stream=\"$stream\"} * 1000"
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "dateTimeAsIso",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "no shape changes",
+                  "index": 0
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "description": "Time of the most recent shape change detected by ldes-watchman"
     }
   ]
 }
