@@ -31,3 +31,9 @@ services:
     restart: no
     ports:
       - "9090:9090"
+  grafana:
+    restart: no
+    ports:
+      - "3000:3000"
+  frontend:
+    restart: no

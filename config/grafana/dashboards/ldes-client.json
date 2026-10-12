@@ -2,9 +2,7 @@
   "id": null,
   "uid": "ldes-client",
   "title": "LDES client",
-  "tags": [
-    "ldes"
-  ],
+  "tags": ["ldes"],
   "timezone": "browser",
   "schemaVersion": 39,
   "version": 1,
@@ -57,9 +55,7 @@
       ],
       "options": {
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "fields": "",
           "values": false
         },
@@ -119,9 +115,7 @@
       ],
       "options": {
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "fields": "",
           "values": false
         },
@@ -173,9 +167,7 @@
       ],
       "options": {
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "fields": "",
           "values": false
         },
@@ -227,9 +219,7 @@
       ],
       "options": {
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "fields": "",
           "values": false
         },
@@ -420,7 +410,7 @@
     },
     {
       "id": 8,
-      "title": "Page changes (last week)",
+      "title": "Shape changes (last week)",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -439,8 +429,8 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "increase(ldes_new_pages_seen_total{stream=\"$stream\"}[30m])",
-          "legendFormat": "page changes per 30m"
+          "expr": "increase(ldes_watchman_shape_changes_total{stream=\"$stream\"}[30m])",
+          "legendFormat": "shape changes per 30m"
         }
       ],
       "options": {
@@ -466,7 +456,7 @@
         },
         "overrides": []
       },
-      "description": "Number of page changes (new pages seen) over the last week"
+      "description": "Number of shape changes over the last week"
     },
     {
       "id": 9,
@@ -490,9 +480,7 @@
       ],
       "options": {
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "fields": "",
           "values": false
         },

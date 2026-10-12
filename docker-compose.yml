@@ -93,7 +93,7 @@ services:
     restart: always
     logging: *default-logging
   ldes-client:
-    image: lblod/ldes-client:0.0.5
+    image: lblod/ldes-client:feature-extra-hooks
     restart: always
     environment:
       WORKING_GRAPH: http://mu.semte.ch/graphs/ldes-working-graph
@@ -132,8 +132,6 @@ services:
     image: grafana/grafana-oss:11.1.0
     user: "0:0"
     restart: always
-    ports:
-      - "3000:3000"
     volumes:
       - ./config/grafana/provisioning:/etc/grafana/provisioning
       - ./config/grafana/dashboards:/etc/grafana/dashboards:ro
@@ -142,9 +140,19 @@ services:
       - "logging=true"
     logging: *default-logging
   ldes-watchman:
-    image: lblod/ldes-watchman-service
+    image: lblod/ldes-watchman-service:0.0.1
+    restart: always
+    labels:
+      - "logging=true"
+    logging: *default-logging
+    environment:
+      SHAPE_CRON_PATTERN: "* * * * *"
     volumes:
       - ./data/ldes-watchman:/data/
       - ./config/ldes-watchman:/config/
   frontend:
-    image: lblod/frontend-ldes-watchman
+    image: lblod/frontend-ldes-watchman:0.0.1
+    labels:
+      - "logging=true"
+    logging: *default-logging
+    restart: always

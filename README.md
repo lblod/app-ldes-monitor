@@ -1,7 +1,40 @@
-> [!WARNING]
-> This repository is under construction
-
 This is an app that can monitor the contents of one or more LDES streams. It should track availability, throughput and contents. It should also validate the contents of the stream using certain SPARQL queries or SHACL rules
+
+## Grafana user and password
+
+Set the grafana user and password using these env vars:
+
+```yaml
+grafana:
+  environment:
+    GF_SECURITY_ADMIN_USER: "myadmin"
+    GF_SECURITY_ADMIN_PASSWORD: "mysecretpassword"
+```
+
+Note that these only take effect when the database has not been created yet
+
+## Grafana url
+
+The grafana notifications refer the user to the grafana location. Fill it out in your docker-compose.override.yml's grafana env
+
+```yaml
+grafana:
+  environment:
+    GF_SERVER_DOMAIN: "grafana.example.com"
+    GF_SERVER_ROOT_URL: "https://grafana.example.com/"
+```
+
+## Watchman url
+
+Sadly, grafana does not allow using env vars in the alert rules section, so we
+can't tell the user to view the watchman url in the notification email they receive.
+
+We could define a new message if we'd be ok with losing the fancy html created by
+grafana, but at this time I'm not ok with that. Another option would be to run a script
+on startup that replaces the env var into the alert-rules.yaml file before startin grafana.
+Again not ok with that at this time.
+
+This leaves me with asking you to replace the WATCHMAN_URL variable yourself in the alert-rules.yaml file
 
 ## Email notifications
 
@@ -36,3 +69,12 @@ grafana:
 > delivered as `Pa$sw0rd`. Setting the value via GF*SMTP*\* in docker-compose
 > does NOT require escaping (Grafana's config expansion applies to the
 > provisioning file, not to the env values themselves).
+
+## Standard pages
+
+Grafana is not exposed by default, you will likely want to expose it so you can view alerts and dashboards.
+
+The dashboard per LDES stream is available at http://localhost:3000/d/ldes-client/ldes-client
+The alerts are available at http://localhost:3000/alerting/list
+
+You will likely also want to expose the identifier so you can access the custom watchman UI that shows useful statistics and the last time the stream's structure changed as well as the diff of that change: http://localhost/statistics

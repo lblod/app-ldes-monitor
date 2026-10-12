@@ -14,7 +14,7 @@ groups:
         annotations:
           summary: No page fetch started for 5+ minutes on stream {{ $labels.stream }}
           description: The ldes-client has not started fetching a page on stream
-            {{$labels.stream}} for more than 5 minutes. The stream may be
+            {{ $labels.stream }} for more than 5 minutes. The stream may be
             stalled, dead or blocked.
         labels:
           severity: warning
@@ -88,13 +88,13 @@ groups:
         title: "LDES client: errors increased"
         condition: C
         for: 0s
-        noDataState: NoData
+        noDataState: OK
         execErrState: Error
         annotations:
           summary: Errors increased on stream {{ $labels.stream }}
-          description: ldes_errors_total increased by {{$values.B}} for stream
-            {{$labels.stream}} in the last 10 minutes. See the ldes-watchman
-            observation graph for details.
+          description:
+            The value for ldes_errors_total increased by {{ $values.B }} for stream
+            {{ $labels.stream }} in the last 10 minutes. See the ldes-watchman observation graph for details (${WATCHMAN_URL})
         labels:
           severity: warning
         data:
@@ -167,14 +167,15 @@ groups:
         title: "LDES client: pages completed per hour spike"
         condition: C
         for: 0s
-        noDataState: NoData
+        noDataState: OK
         execErrState: Error
         annotations:
           summary: Pages completed per hour spiked on stream {{ $labels.stream }}
           description:
-            The number of pages completed per hour on stream {{$labels.stream}}
-            is more than 1000% of the average of last week ({{$values.B}}).
+            The number of pages completed per hour on stream {{ $labels.stream }}
+            is more than 1000% of the average of last week ({{ $values.B }}).
             Check the ldes stream for unusual activity or duplicate pages.
+            See more at ${WATCHMAN_URL}
         labels:
           severity: warning
         data:
@@ -248,14 +249,14 @@ groups:
         title: "LDES client: shape changed"
         condition: C
         for: 0s
-        noDataState: NoData
+        noDataState: OK
         execErrState: Error
         annotations:
           summary: Shape changed for {{ $labels.stream }}
           description:
-            The ldes-watchman detected a shape change on {{$labels.stream}}
-            in the last hour; a new shape report file was stored. Inspect GET
-            /shape/diff?streamUri=... on the ldes-watchman to see what changed.
+            The ldes-watchman detected a shape change on {{ $labels.stream }}
+            in the last hour; a new shape report file was stored. Inspect the
+            change at ${WATCHMAN_URL}
         labels:
           severity: warning
         data:

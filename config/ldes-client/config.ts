@@ -11,8 +11,8 @@ import {
   storePageProcessedTime,
 } from "./util";
 
+let lastPageProcessed = null as null | string;
 export default {
-  lastPageProcessed: null as null | string,
   endpoints: [
     {
       name: "Public Stream",
@@ -85,10 +85,10 @@ export default {
       stream,
     );
     await incrementCounter("ldes_pages_completed_total", stream);
-    if (currentPage != this.lastPageProcessed) {
+    if (currentPage != lastPageProcessed) {
       await incrementCounter("ldes_new_pages_seen_total", stream);
     }
-    this.lastPageProcessed = currentPage;
+    lastPageProcessed = currentPage;
   },
   getObservationsGraph(_currentStreamConfig: any) {
     return "http://mu.semte.ch/graphs/ldes-validation/status";
