@@ -105,7 +105,7 @@ groups:
               to: 0
             model:
               editorMode: code
-              expr: increase(ldes_errors_total[10m])
+              expr: increase(ldes_errors_total[10m]) > 1
               instant: true
               intervalMs: 1000
               maxDataPoints: 43200

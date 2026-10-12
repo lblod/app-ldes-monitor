@@ -1,0 +1,15 @@
+apiVersion: 1
+# The recipient address is expanded from the environment at startup (`$VAR`
+# syntax); provide MONITORING_TARGET_EMAIL via docker-compose.override.yml.
+# SMTP connection details (host, user, password, ...) are not configured
+# here but server-wide via GF_SMTP_* environment variables.
+contactPoints:
+  - orgId: 1
+    name: Email notifications
+    receivers:
+      - uid: email-notifications
+        type: email
+        settings:
+          addresses: "$MONITORING_TARGET_EMAIL"
+          singleEmail: false
+        disableResolveMessage: false
