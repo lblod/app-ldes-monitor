@@ -105,6 +105,7 @@ services:
       LDES_METRICS_PUSHGATEWAY_URL: "http://pushgateway:9091"
     volumes:
       - ./config/ldes-client:/config
+      - ./config/application/appconfig.ts:/config/appconfig.ts
     labels:
       - "logging=true"
     logging: *default-logging
@@ -150,6 +151,7 @@ services:
     volumes:
       - ./data/ldes-watchman:/data/
       - ./config/ldes-watchman:/config/
+      - ./config/application/appconfig.ts:/config/appconfig.ts
   frontend:
     image: lblod/frontend-ldes-watchman:0.0.2
     labels:

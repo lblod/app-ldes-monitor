@@ -1,5 +1,7 @@
 # Virtuoso files /data/db
 /data/*
+/config/ldes-client/appconfig.ts
+/config/ldes-watchman/appconfig.ts
 /debug
 .DS_Store
 .vscode

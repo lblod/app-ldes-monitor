@@ -10,23 +10,11 @@ import {
   storePageInfo,
   storePageProcessedTime,
 } from "./util";
+import { endpoints } from "./appconfig";
 
 let lastPageProcessed = null as null | string;
 export default {
-  endpoints: [
-    {
-      name: "Public Stream",
-      LDES_BASE:
-        "https://mandatenbeheer.lokaalbestuur.vlaanderen.be/streams/ldes/public",
-      FIRST_PAGE:
-        "https://mandatenbeheer.lokaalbestuur.vlaanderen.be/streams/ldes/public/checkpoints/2026-10-01T05-00-00/1",
-      TARGET_GRAPH: "http://mu.semte.ch/graphs/ldes-validation/public/content",
-      STATUS_GRAPH: "http://mu.semte.ch/graphs/ldes-validation/public/status",
-      EXTRA_HEADERS: {},
-      VERSION_PREDICATE: "http://purl.org/dc/terms/isVersionOf",
-      TIME_PREDICATE: "http://www.w3.org/ns/prov#generatedAtTime",
-    },
-  ],
+  endpoints,
   onPageLoadError: async (error: Error, response: Response) => {
     const stream = environment.getCurrentStreamConfig().name;
     (error as Error & { dctType?: string }).dctType =
