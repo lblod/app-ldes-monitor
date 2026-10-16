@@ -141,7 +141,7 @@ services:
       - "logging=true"
     logging: *default-logging
   ldes-watchman:
-    image: lblod/ldes-watchman-service:0.0.2
+    image: lblod/ldes-watchman-service:0.0.3
     restart: always
     labels:
       - "logging=true"
