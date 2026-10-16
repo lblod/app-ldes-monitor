@@ -24,9 +24,11 @@ endpoints.forEach((endpoint: any) => {
     ...endpoint,
     content: endpoint.TARGET_GRAPH,
     status: endpoint.STATUS_GRAPH,
-    sparqlVerify: async (streamUri: string, contentGraph: string) => {
-      await endpoint.sparqlVerify(streamUri, contentGraph, onSparqlError);
-    },
+    sparqlVerify:
+      endpoint.sparqlVerify &&
+      (async (streamUri: string, contentGraph: string) => {
+        await endpoint.sparqlVerify(streamUri, contentGraph, onSparqlError);
+      }),
     onShapeChange,
   };
 });
