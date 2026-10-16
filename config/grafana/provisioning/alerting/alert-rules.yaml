@@ -163,6 +163,87 @@ groups:
               maxDataPoints: 43200
               type: threshold
               refId: C
+      - uid: ldes-watchman-sparql-errors-increased
+        title: "LDES watchman: sparql validation errors increased"
+        condition: C
+        for: 0s
+        noDataState: OK
+        execErrState: Error
+        annotations:
+          summary: Sparql validation errors increased on stream {{ $labels.stream }}
+          description:
+            The value for ldes_watchman_sparql_errors_total increased by
+            {{ $values.B }} for stream {{ $labels.stream }} in the last 10
+            minutes. See the ldes-watchman status graph for details
+            (${WATCHMAN_URL})
+        labels:
+          severity: warning
+        data:
+          - refId: A
+            datasourceUid: prometheus
+            relativeTimeRange:
+              from: 600
+              to: 0
+            model:
+              editorMode: code
+              expr: increase(ldes_watchman_sparql_errors_total[10m]) > 0
+              instant: true
+              intervalMs: 1000
+              maxDataPoints: 43200
+              refId: A
+          - refId: B
+            datasourceUid: __expr__
+            model:
+              conditions:
+                - evaluator:
+                    params: []
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params:
+                      - A
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              datasource:
+                type: __expr__
+                uid: __expr__
+              expression: A
+              intervalMs: 1000
+              maxDataPoints: 43200
+              reducer: last
+              settings:
+                mode: dropNN
+                reducer: last
+              type: reduce
+              refId: B
+          - refId: C
+            datasourceUid: __expr__
+            model:
+              conditions:
+                - evaluator:
+                    params:
+                      - 0
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params:
+                      - B
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              datasource:
+                type: __expr__
+                uid: __expr__
+              expression: B
+              intervalMs: 1000
+              maxDataPoints: 43200
+              type: threshold
+              refId: C
       - uid: ldes-pages-completed-spike
         title: "LDES client: pages completed per hour spike"
         condition: C

@@ -1,4 +1,7 @@
 import { incrementCounter, setGauge } from "../metrics";
+import { querySudo } from "@lblod/mu-auth-sudo";
+import { sparqlEscapeUri } from "mu";
+import { onSparqlError } from "../sparql-errors";
 
 export const config = {
   streams: {
@@ -22,6 +25,28 @@ export const config = {
           " stored at ",
           path,
         );
+      },
+      sparqlVerify: async (streamUri:string, contentGraph:string) => {
+        const results = await querySudo(`
+          SELECT (COUNT(?membership) AS ?count) WHERE {
+            {
+              SELECT ?membership WHERE {
+                GRAPH ${sparqlEscapeUri(contentGraph)} {
+                  ?membership a <http://www.w3.org/ns/org#Membership> ;
+                    <http://www.w3.org/ns/org#organisation> ?organisation .
+                }
+              } GROUP BY ?membership HAVING (COUNT(DISTINCT ?organisation) > 1)
+            }
+          }
+        `);
+        const count = parseInt(
+          results?.results.bindings[0]?.count?.value || "0",
+        );
+        if (count > 0) {
+          await onSparqlError(streamUri, "membership-multiple-organisations", {
+            count,
+          });
+        }
       },
     },
   },

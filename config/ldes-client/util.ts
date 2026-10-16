@@ -29,7 +29,7 @@ export async function storeError(
   }
   let typeSnippet = "";
   if (error.dctType) {
-    typeSnippet = `<http://purl.org/dc/terms/type> ${sparqlEscapeUri(error.dctType)}`;
+    typeSnippet = `<http://purl.org/dc/terms/type> ${sparqlEscapeUri(error.dctType)} ;`;
   }
 
   const graph = config.getObservationsGraph(
